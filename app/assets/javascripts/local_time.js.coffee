@@ -151,7 +151,8 @@ class RelativeTime
 
   formatDate: ->
     format = "%b %e"
-    format += ", %Y" unless @calendarDate.occursThisYear()
+    format += " %Y" unless @calendarDate.occursThisYear()
+    format += ', %l:%M%P'
     strftime @date, format
 
   formatTime: ->
