@@ -109,7 +109,7 @@ class RelativeTime
 
     # Older: "Saved on Dec 15"
     else
-      "on #{@formatDate()}"
+      "#{@formatDate()}"
 
   toTimeOrDateString: ->
     if @calendarDate.isToday()
@@ -143,16 +143,16 @@ class RelativeTime
   relativeWeekday: ->
     switch @calendarDate.daysPassed()
       when 0
-        "today"
+        "Today"
       when 1
-        "yesterday"
+        "Yesterday"
       when 2,3,4,5,6
         strftime @date, "%A"
 
   formatDate: ->
     format = "%b %e"
     format += " %Y" unless @calendarDate.occursThisYear()
-    format += ', %l:%M%P'
+    format += ' at %l:%M%P'
     strftime @date, format
 
   formatTime: ->
