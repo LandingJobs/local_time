@@ -102,10 +102,10 @@ class RelativeTime
     if ago = @timeElapsed()
       "#{ago} ago"
 
-    # Yesterday: "Saved yesterday at 8:15am"
-    # This week: "Saved Thursday at 8:15am"
+    # Yesterday: "Saved yesterday, 8:15am"
+    # This week: "Saved Thu, 8:15am"
     else if day = @relativeWeekday()
-      "#{day} at #{@formatTime()}"
+      "#{day}, #{@formatTime()}"
 
     # Older: "Saved on Dec 15"
     else
