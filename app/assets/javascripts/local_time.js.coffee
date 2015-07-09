@@ -16,7 +16,7 @@ if isNaN Date.parse "2011-01-01T12:00:00-05:00"
       dateString = "#{year}/#{month}/#{day} #{hour}:#{minute}:#{second} GMT#{[offset]}"
     parse dateString
 
-weekdays = "Sunday Monday Tuesday Wednesday Thursday Friday Saturday".split " "
+weekdays = "Sun Mon Tue Wed Thu Fri Sat".split " "
 months   = "January February March April May June July August September October November December".split " "
 
 pad = (num) -> ('0' + num).slice -2
@@ -152,7 +152,7 @@ class RelativeTime
   formatDate: ->
     format = "%b %e"
     format += " %Y" unless @calendarDate.occursThisYear()
-    format += ' at %l:%M%P'
+    format += ', %l:%M%P'
     strftime @date, format
 
   formatTime: ->
