@@ -98,16 +98,20 @@ class RelativeTime
     @calendarDate = CalendarDate.fromDate @date
 
   toString: ->
-    # Today: "Saved 5 hours ago"
+    # Up to 1 hour ago: "just now", "1 min", "59 mins"
     if ago = @timeElapsed()
-      "#{ago} ago"
+      ago
 
-    # Yesterday: "Saved yesterday, 8:15am"
-    # This week: "Saved Thu, 8:15am"
+
     else if day = @relativeWeekday()
-      "#{day}, #{@formatTime()}"
+      if day == null
+        # Today, over 1 hour ago: "3:45 PM"
+        @formatTime()
+      else
+        # Up to 1 week: "Yesterday, 3:45 PM", "Mon, 3:45 PM"
+        "#{day}, #{@formatTime()}"
 
-    # Older: "Saved on Dec 15"
+    # Older: "June 30, 3:45 PM", "June 30 2014, 10:55"
     else
       "#{@formatDate()}"
 
@@ -125,25 +129,19 @@ class RelativeTime
 
     if ms < 0
       null
-    else if sec < 10
-      "a second"
-    else if sec < 45
-      "#{sec} seconds"
-    else if sec < 90
-      "a minute"
-    else if min < 45
-      "#{min} minutes"
-    else if min < 90
-      "an hour"
-    else if hr < 24
-      "#{hr} hours"
+    else if sec < 60
+      "just now"
+    else if min == 1
+      "#{min} min"
+    else if min < 60
+      "#{min} mins"
     else
       null
 
   relativeWeekday: ->
     switch @calendarDate.daysPassed()
       when 0
-        "Today"
+        null
       when 1
         "Yesterday"
       when 2,3,4,5,6
