@@ -113,13 +113,13 @@ class RelativeTime
 
     # Older: "June 30, 3:45 PM", "June 30 2014, 10:55"
     else
-      "#{@formatDate()}"
+      "#{@formatDateTime()}"
 
   toTimeOrDateString: ->
     if @calendarDate.isToday()
       @formatTime()
     else
-      @formatDate()
+      @formatDateTime()
 
   timeElapsed: ->
     ms  = new Date().getTime() - @date.getTime()
@@ -147,10 +147,15 @@ class RelativeTime
       when 2,3,4,5,6
         strftime @date, "%A"
 
-  formatDate: ->
+  formatDateTime: ->
     format = "%b %e"
     format += " %Y" unless @calendarDate.occursThisYear()
     format += ', %l:%M%P'
+    strftime @date, format
+
+  formatDate: ->
+    format = "%b %e"
+    format += " %Y" unless @calendarDate.occursThisYear()
     strftime @date, format
 
   formatTime: ->
