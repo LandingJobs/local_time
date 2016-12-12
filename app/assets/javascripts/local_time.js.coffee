@@ -154,9 +154,16 @@ class RelativeTime
     strftime @date, format
 
   formatDate: ->
-    format = "%b %e"
-    format += " %Y" unless @calendarDate.occursThisYear()
-    strftime @date, format
+
+    if day = @relativeWeekday()
+
+      if day == null
+        'Today'
+      else
+        day
+    else
+      format = "%b %e %Y"
+      strftime @date, format
 
   formatTime: ->
     strftime @date, '%l:%M%P'
