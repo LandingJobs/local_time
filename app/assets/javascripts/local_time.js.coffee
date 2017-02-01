@@ -16,7 +16,7 @@ if isNaN Date.parse "2011-01-01T12:00:00-05:00"
       dateString = "#{year}/#{month}/#{day} #{hour}:#{minute}:#{second} GMT#{[offset]}"
     parse dateString
 
-weekdays = "Sun Mon Tue Wed Thu Fri Sat".split " "
+weekdays = "Sunday Monday Tuesday Wednesday Thursday Friday Saturday".split " "
 months   = "January February March April May June July August September October November December".split " "
 
 pad = (num) -> ('0' + num).slice -2
@@ -98,10 +98,9 @@ class RelativeTime
     @calendarDate = CalendarDate.fromDate @date
 
   toString: ->
-    # Up to 1 hour ago: "just now", "1 min", "59 mins"
+    # Up to 1 day ago: "just now", "1 min ago", "1 hour ago"
     if ago = @timeElapsed()
       ago
-
 
     else if day = @relativeWeekday()
       if day == null
@@ -109,11 +108,11 @@ class RelativeTime
         @formatTime()
       else
         # Up to 1 week: "Yesterday, 3:45 PM", "Mon, 3:45 PM"
-        "#{day}, #{@formatTime()}"
+        day
 
     # Older: "June 30, 3:45 PM", "June 30 2014, 10:55"
     else
-      "#{@formatDateTime()}"
+      "#{@formatDate()}"
 
   toTimeOrDateString: ->
     if @calendarDate.isToday()
@@ -132,9 +131,13 @@ class RelativeTime
     else if sec < 60
       "just now"
     else if min == 1
-      "#{min} min"
+      "#{min} min ago"
     else if min < 60
-      "#{min} mins"
+      "#{min} mins ago"
+    else if hr == 1
+      "#{hr} hour ago"
+    else if hr < 24
+      "#{hr} hours ago"
     else
       null
 
@@ -162,7 +165,8 @@ class RelativeTime
       else
         day
     else
-      format = "%b %e %Y"
+      format = "%b %e"
+      format += " %Y" unless @calendarDate.occursThisYear()
       strftime @date, format
 
   formatTime: ->
